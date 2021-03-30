@@ -10,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -22,7 +20,7 @@ import javax.swing.JOptionPane;
  * @author jhonatan
  */
 public class Mnp {
-    
+
     public void InsertO(String ativo, int quantidade, float preco, String data, float taxa, String op, String tipo){
         
         Connection con = ConnectionBD.GetConnection();
@@ -275,10 +273,10 @@ public class Mnp {
             rs2 = stmt.executeQuery();
             
             while(rs.next()){
-                obj_operacaom.setCompra((Float.valueOf(rs.getFloat("quantidade")*rs.getFloat("preco"))+rs.getFloat("taxa")+obj_operacaom.getCompra()));
+                obj_operacaom.setCompra((rs.getFloat("quantidade")*rs.getFloat("preco")+rs.getFloat("taxa")+obj_operacaom.getCompra()));
             }
             while(rs2.next()){
-                obj_operacaom.setCompra((Float.valueOf(rs.getFloat("quantidade")*rs.getFloat("preco"))+rs.getFloat("taxa")+obj_operacaom.getCompra()));
+                obj_operacaom.setCompra((rs.getFloat("quantidade")*rs.getFloat("preco")+rs.getFloat("taxa")+obj_operacaom.getCompra()));
             }
                 
         } catch (SQLException ex) {
