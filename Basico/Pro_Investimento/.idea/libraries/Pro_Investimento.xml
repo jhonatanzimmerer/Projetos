@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Pro_Investimento">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/Pro_Investimento.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
