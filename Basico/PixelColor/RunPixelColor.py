@@ -1,20 +1,33 @@
-import numpy as np
 import cv2
-from matplotlib import pyplot as plt
 
-data = cv2.imread("img/Syngenta.bmp")
 
-"""data = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)"""
-altura, largura, canais = data.shape
+'''Carregando a imagem'''
+obj_imagem = cv2.imread("img/Syngenta.bmp")
+
+'''Definindo o modelo de cor para RGB'''
+obj_imagem = cv2.cvtColor(obj_imagem, cv2.COLOR_BGR2RGB)
+
+'''Definindo variaveis'''
+altura, largura, canais = obj_imagem.shape
 valores = []
 
-for y in range(altura-1, altura):
-    for x in range(largura-1, largura):
-        comp = data[y][x]
-        for comp1 in comp:
-            print(comp1)
-        valores.append(data[y][x])
+'''Carregando pixel'''
+'''Loop para percorrer os pixels'''
+for y in range(0, altura):
+    for x in range(0, largura):
+        comp = obj_imagem[y][x]
+        cor = []
 
-print(valores)
-"""plt.imshow(data)
-plt.show()"""
+        for comp1 in comp:
+            cor.append(comp1)
+
+        '''Separação das cores'''
+        if not (cor[0] == 0 and cor[1] == 0 and cor[2] == 0):
+            if not (cor[0] == 255 and cor[1] == 255 and cor[2] == 255):
+                if cor[0] == 96 and cor[1] == 192 and cor[2] == 0:
+                    valores.append(cor.copy())
+
+        '''Limpar a lista'''
+        cor.clear()
+
+print("Quantidade de pixels verdes: ", len(valores))
