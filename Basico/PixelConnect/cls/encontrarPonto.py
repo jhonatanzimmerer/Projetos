@@ -23,15 +23,30 @@ class EncontrarPonto:
                 if validar:
                     return y, x
     '''Identificar o ponto mais proximo'''
+    '''Calcular o ponto mais proximo'''
+    def pontoproximo(self, pontos, referencia):
+        distancia = (((pontos[0][1] - referencia[1]) ** 2) + ((pontos[0][0] - referencia[0]) ** 2)) ** (1/2)
+        resultado = {"y": pontos[0][0], "x": pontos[0][1], "distancia": distancia}
+
+        for ponto in range(1,len(pontos)):
+            distancia = (((ponto[1] - referencia[1]) ** 2) + ((ponto[0] - referencia[0]) ** 2)) ** (1 / 2)
+            if distancia < resultado.get("distancia"):
+                resultado.__setitem__("y", ponto[0])
+                resultado.__setitem__("x", ponto[1])
+                resultado.__setitem__("distancia", distancia)
+
+        return resultado.get("y"), resultado.get("x")
+
     def procurarponto(self):
         tentativa = 0
         resultado = []
         ponto = []
         altura, largura, canais = self.obj_viewimg.obj_img.shape
         posicao = self.pontoinicio(altura, largura)
-        if posicao[0]>0:
+        if posicao[0] > 0:
             resultado.append(self.superior(posicao[0], posicao[1], tentativa, largura))
-        resultado.append(self.direita(posicao[0], posicao[1]))
+        if posicao[1] < largura:
+            resultado.append(self.direita(posicao[0], posicao[1]))
         resultado.append(self.inferior(posicao[0], posicao[1]))
         resultado.append(self.esquerda(posicao[0], posicao[1]))
 
@@ -46,30 +61,36 @@ class EncontrarPonto:
             """Encontrei o ponto"""
     '''Fazer a varredura nos pixels a cima do ponto indicado'''
     def superior(self, y, x, tentativa, largura):
-        ponto = [y,x]
+        ponto = [y, x]
+        resultado = []
         y -= 1
         inicio = 0
         fim = 0
-
-        if x > 0:
+        if x - (1 + tentativa) <= 0:
+            inicio = 0
+        else:
             inicio = x - (1 + tentativa)
-            if inicio <= 0:
-                inicio = 0
-        if x < largura:
-            fim = x + (1 + tentativa)
-            if fim > largura:
-                fim = largura
-        x = fim
 
-        for repetir in range(0,fim):
-            validar = self.validarcor(y, x)
+        if x + (1 + tentativa) >= largura:
+            fim = largura
+        else:
+            fim = x + (1 + tentativa)
+
+        del x
+
+        for eixox in range(inicio, fim):
+            validar = self.validarcor(y, eixox)
             if validar:
-                return y, x
-            x += 1
-        return 0, 0
+                resultado.append([y, eixox])
+
+        return self.pontoproximo(resultado, ponto)
     '''Fazer a varredura nos pixels a direita do ponto indicado'''
-    def direita(self, y, x):
-        x += 1
+    def direita(self, y, x, tentativa, largura):
+        ponto = [y,x]
+        x = x + (1 + tentativa)
+
+        if 
+
         for repetir in range(0,1):
             validar = self.validarcor(y, x)
             if validar:
