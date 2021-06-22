@@ -67,6 +67,7 @@ public class Main extends javax.swing.JFrame {
         return data;
     }
     
+    
     public void FocusClose(JPanel foco, JPanel foco1){
         Jp_AdicionarB.setVisible(false);
         Jp_DesempenhoB.setVisible(false);
@@ -1851,9 +1852,9 @@ public class Main extends javax.swing.JFrame {
     private void BntconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntconfirmarActionPerformed
             String ativo = Txtativo.getText();
             int quantidade = Integer.valueOf(Txtquantidade.getText());
-            float preco = Float.valueOf(Txtpreco.getText());
+            float preco = Float.valueOf(Txtpreco.getText().replace(",", "."));
             String data = ConvertDate(Txtdata.getText());
-            float taxa = Float.valueOf(Txtaxa.getText());
+            float taxa = Float.valueOf(Txtaxa.getText().replace(",", "."));
             String op = "";
             String tipo = "";
             Mnp sql = new Mnp();
@@ -1866,7 +1867,7 @@ public class Main extends javax.swing.JFrame {
                 tipo = "F"; 
             else if(Rbacao.isSelected())
                 tipo = "A";
-            
+
             if(op.equals("C")){
                 if(ExistM(ativo, quantidade) >= -1)
                     sql.InsertM(ativo, quantidade, preco, taxa, true);

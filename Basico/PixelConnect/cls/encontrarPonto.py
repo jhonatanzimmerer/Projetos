@@ -16,47 +16,57 @@ class EncontrarPonto:
                     return True
         return False
     '''Encontrar o primeiro pixel que contem a cor procurada'''
-    def pontoinicio(self, altura, largura):
-        for y in range(0, altura):
-            for x in range(0, largura):
+    def pontoinicio(self, altura, largura, eixoy, eixox):
+        for y in range(eixoy + 1, altura):
+            for x in range(eixox + 1, largura):
                 validar = self.validarcor(y, x)
                 if validar:
                     return y, x
     '''Identificar o ponto mais proximo'''
     '''Calcular o ponto mais proximo'''
     def pontoproximo(self, pontos, referencia):
-        distancia = (((pontos[0][1] - referencia[1]) ** 2) + ((pontos[0][0] - referencia[0]) ** 2)) ** (1/2)
-        resultado = {"y": pontos[0][0], "x": pontos[0][1], "distancia": distancia}
+        if not len(pontos) == 0:
+            distancia = (((pontos[0][1] - referencia[1]) ** 2) + ((pontos[0][0] - referencia[0]) ** 2)) ** (1/2)
+            resultado = {"y": pontos[0][0], "x": pontos[0][1], "distancia": distancia}
 
-        for ponto in range(1,len(pontos)):
-            distancia = (((ponto[1] - referencia[1]) ** 2) + ((ponto[0] - referencia[0]) ** 2)) ** (1 / 2)
-            if distancia < resultado.get("distancia"):
-                resultado.__setitem__("y", ponto[0])
-                resultado.__setitem__("x", ponto[1])
-                resultado.__setitem__("distancia", distancia)
+            for ponto in range(1,len(pontos)):
+                distancia = (((ponto[1] - referencia[1]) ** 2) + ((ponto[0] - referencia[0]) ** 2)) ** (1 / 2)
+                if distancia < resultado.get("distancia"):
+                    resultado.__setitem__("y", ponto[0])
+                    resultado.__setitem__("x", ponto[1])
+                    resultado.__setitem__("distancia", distancia)
 
-        return resultado.get("y"), resultado.get("x")
+            return resultado.get("y"), resultado.get("x")
+        return [-1, -1]
 
     def procurarponto(self):
         tentativa = 1
         resultado = []
         ponto = []
         altura, largura, canais = self.obj_viewimg.obj_img.shape
-        posicao = self.pontoinicio(altura, largura)
-        resultado.append(self.superior(posicao[0], posicao[1], tentativa, largura))
-        resultado.append(self.direita(posicao[0], posicao[1]))
-        resultado.append(self.inferior(posicao[0], posicao[1]))
-        resultado.append(self.esquerda(posicao[0], posicao[1]))
+        eixoy = -1
+        eixox = -1
+        for repetir in range(0, 298):
+            posicao = self.pontoinicio(altura, largura, eixoy, eixox)
+            for y in range(posicao[0], altura):
+                if not tentativa == -1:
+                    for x in range(posicao[1], largura):
+                        resultado.append(self.superior(y, x, tentativa, largura))
+                        resultado.append(self.direita(y, x, tentativa, largura, altura))
+                        resultado.append(self.inferior(y, x, tentativa, largura, altura))
+                        resultado.append(self.esquerda(y, x, tentativa, altura))
+                        tentativa += 1
+                        for repetir in range(0, resultado.count([-1,-1])):
+                            resultado.pop(resultado.index([-1, -1]))
+                        if len(resultado) > 0:
+                            ponto.append(self.pontoproximo(resultado, [y, x]).copy())
+                            resultado.clear()
+                            tentativa = -1
+                            break
+                else:
+                    break
+        print(ponto)
 
-        for linha in range(0, int(len(resultado))):
-            if not resultado[linha] == (0, 0):
-                ponto.append(resultado[linha])
-
-        if len(ponto)<=0:
-            tentativa += 1
-        else:
-            pass
-            """Encontrei o ponto"""
     '''Fazer a varredura nos pixels a cima do ponto indicado'''
     def superior(self, y, x, tentativa, largura):
         ponto = [y,x]
@@ -141,7 +151,7 @@ class EncontrarPonto:
 
         return self.pontoproximo(resultado, ponto)
     '''Fazer a varredura nos pixels a esquerda do ponto indicado'''
-    def esquerda(self, y, x, tentativa, largura, altura):
+    def esquerda(self, y, x, tentativa, altura):
         ponto = [y, x]
         resultado = []
         inicio = 0
