@@ -29,5 +29,5 @@ for y in range(0, altura):
 
         '''Limpar a lista'''
         cor.clear()
-
+cv2.imshow()
 print("Quantidade de pixels verdes: ", len(valores))

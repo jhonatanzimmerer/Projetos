@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Pro_Market:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Pro_Market_jar</output-path>
+    <root id="archive" name="Pro_Market.jar">
+      <element id="module-output" name="Pro_Market" />
+    </root>
+  </artifact>
+</component>
