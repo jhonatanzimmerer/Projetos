@@ -1,9 +1,9 @@
 package view;
 
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import java.awt.*;
 import java.awt.event.*;
 
 public class CaixaFrame extends JFrame{
@@ -50,10 +50,16 @@ public class CaixaFrame extends JFrame{
     private javax.swing.JScrollPane JScrollPaneLeft;
 
     public CaixaFrame(){
+
+
         this.setContentPane(PanelCaixa);
         iconFolder("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconFolder.png");
-        actions();
 
+        actions();
+        confJTable();
+
+        //DefaultTableModel dtm = (DefaultTableModel) JTableOrder.getModel();
+        //dtm.addRow(new String []{"10","Carne","200"});
     }
 
     public void iconFolder(String path){
@@ -61,9 +67,6 @@ public class CaixaFrame extends JFrame{
         JLabelFolderProd.setSize(16,16);
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(JLabelFolderProd.getWidth(), JLabelFolderProd.getHeight(), 1));
         JLabelFolderProd.setIcon(imageIcon);
-        confJTable();
-        //DefaultTableModel dtm = (DefaultTableModel) JTableOrder.getModel();
-        //dtm.addRow(new String []{"10","Carne","200"});
     }
 
     public void confJTable(){
@@ -75,11 +78,25 @@ public class CaixaFrame extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                SelectProdFrame selectProdFrame = new SelectProdFrame();
+                selectProdFrame.setLocationRelativeTo(null);
+                selectProdFrame.setVisible(true);
 
             }
         });
     }
 
+    public void startSelectProdFrame(){
+        SelectProdFrame selectProdFrame = new SelectProdFrame();
+        selectProdFrame.setLocationRelativeTo(null);
+        selectProdFrame.setVisible(true);
+    }
+
+    public void closeSelectProdFrame(){
+        SelectProdFrame selectProdFrame = new SelectProdFrame();
+        selectProdFrame.setLocationRelativeTo(null);
+        selectProdFrame.setVisible(true);
+    }
 
 
 }

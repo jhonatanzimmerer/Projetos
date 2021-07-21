@@ -4,6 +4,8 @@ import cls.bd.MnpBD;
 import cls.obj.Product;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,20 +33,23 @@ public class MainFrame extends JFrame{
 
 
     public void start(){
+        //seta o painel principal, define o fim da operação e define o tamanho 151pixel
         this.setContentPane(PanelMain);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280,720);
 
+        //Carrega os icones do painel principal
         iconLogin("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconLogin.png");
         iconSell("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSell.png");
         iconGear("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconGear.png");
         iconCaixa("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconCaixa.png");
 
+        //Carrega o painel do frame que contem o caixa
         caixaPanel();
 
+        //Carrega a lista de produtos
         List<Product> listProduct = new ArrayList<>();
         listProduct.addAll(new MnpBD().loadProd());
-
 
 
         this.setVisible(true);
@@ -81,5 +86,9 @@ public class MainFrame extends JFrame{
     public void caixaPanel(){
         CaixaFrame caixaFrame = new CaixaFrame();
         this.JPanelBody.add(caixaFrame.getContentPane()).setSize(JPanelBody.getSize());
+    }
+
+    public void lockFrame(boolean lock){
+        this.setEnabled(lock);
     }
 }
