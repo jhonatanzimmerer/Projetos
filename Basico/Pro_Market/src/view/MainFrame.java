@@ -1,8 +1,9 @@
 package view;
 
-
+import cls.ReadConf;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainFrame extends JFrame{
     private JPanel PanelMain;
@@ -31,12 +32,18 @@ public class MainFrame extends JFrame{
         this.setContentPane(PanelMain);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280,720);
-        this.setVisible(true);
+
         iconLogin("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconLogin.png");
         iconSell("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSell.png");
         iconGear("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconGear.png");
         iconCaixa("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconCaixa.png");
 
+        caixaPanel();
+        ReadConf readConf = new ReadConf();
+        readConf.confBD();
+
+
+        this.setVisible(true);
     }
 
     public void iconLogin(String path){
@@ -67,4 +74,8 @@ public class MainFrame extends JFrame{
         JLabelIconCaixa.setIcon(imageIcon);
     }
 
+    public void caixaPanel(){
+        CaixaFrame caixaFrame = new CaixaFrame(new Dimension(400,400));
+        this.JPanelBody.add(caixaFrame.getContentPane()).setSize(JPanelBody.getSize());
+    }
 }
