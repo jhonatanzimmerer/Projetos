@@ -1,4 +1,4 @@
-package cls;
+package cls.file;
 
 import java.io.*;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ public class ReadConf {
             path.put("USER",bufferedReader.readLine());
             path.put("PASS",bufferedReader.readLine());
             fileReader.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

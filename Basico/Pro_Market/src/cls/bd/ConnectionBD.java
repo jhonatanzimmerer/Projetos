@@ -1,4 +1,6 @@
-package cls;
+package cls.bd;
+
+import cls.file.ReadConf;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,9 @@ public class ConnectionBD {
     private static final Map<String, String> path = new HashMap<>();
 
     public static Connection GetConnection(){
+
         try {
+            path.putAll(new ReadConf().confBD());
             Class.forName(path.get("DRIVER"));
             return DriverManager.getConnection(path.get("URL"), path.get("USER"), path.get("PASS"));
         } catch (ClassNotFoundException | SQLException ex) {

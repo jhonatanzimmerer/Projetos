@@ -1,9 +1,11 @@
 package view;
 
-import cls.ReadConf;
+import cls.bd.MnpBD;
+import cls.obj.Product;
 
 import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFrame extends JFrame{
     private JPanel PanelMain;
@@ -39,8 +41,10 @@ public class MainFrame extends JFrame{
         iconCaixa("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconCaixa.png");
 
         caixaPanel();
-        ReadConf readConf = new ReadConf();
-        readConf.confBD();
+
+        List<Product> listProduct = new ArrayList<>();
+        listProduct.addAll(new MnpBD().loadProd());
+
 
 
         this.setVisible(true);
@@ -75,7 +79,7 @@ public class MainFrame extends JFrame{
     }
 
     public void caixaPanel(){
-        CaixaFrame caixaFrame = new CaixaFrame(new Dimension(400,400));
+        CaixaFrame caixaFrame = new CaixaFrame();
         this.JPanelBody.add(caixaFrame.getContentPane()).setSize(JPanelBody.getSize());
     }
 }
