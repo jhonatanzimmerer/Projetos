@@ -19,11 +19,12 @@ public class MnpBD {
         ResultSet rs = null;
 
         try{
-            stmt = con.prepareStatement("SELECT * FROM market.produto");
+            stmt = con.prepareStatement("SELECT Cod, Produto, Quantidade, Valor FROM market.produto");
             rs = stmt.executeQuery();
 
             while(rs.next()){
                 Product product = new Product();
+                product.setCod(rs.getInt("Cod"));
                 product.setName(rs.getString("Produto"));
                 product.setAmount(rs.getInt("Quantidade"));
                 product.setValue(rs.getDouble("Valor"));

@@ -82,6 +82,8 @@ public class CaixaFrame extends JFrame{
                 selectProdFrame.setLocationRelativeTo(null);
                 selectProdFrame.setVisible(true);
 
+                JTextFieldProd.setText(selectProdFrame.getProdName());
+
             }
         });
     }

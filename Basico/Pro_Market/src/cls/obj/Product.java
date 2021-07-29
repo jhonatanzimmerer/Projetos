@@ -2,9 +2,18 @@ package cls.obj;
 
 public class Product {
 
+    private int cod;
     private String name;
     private int amount;
     private double value;
+
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
 
     public String getName() {
         return name;

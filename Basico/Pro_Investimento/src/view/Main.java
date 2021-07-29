@@ -1934,7 +1934,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_Jp_AdicionarMouseClicked
 
     private void BtncalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtncalcularActionPerformed
-        Btncalcular.setEnabled(false);
+         Btncalcular.setEnabled(false);
         Btnlimpar.setEnabled(true);
         
         String inicio = ""; 
