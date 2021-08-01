@@ -1,9 +1,11 @@
 package view;
 
+import cls.bd.MnpBD;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
 
 public class CaixaFrame extends JFrame{
@@ -48,9 +50,11 @@ public class CaixaFrame extends JFrame{
     private JLabel JLabelFolderProd;
     private JPanel JPanelAmount;
     private javax.swing.JScrollPane JScrollPaneLeft;
+    private JTextField JTextFielCod;
+    private JFormattedTextField formattedTextField1;
+
 
     public CaixaFrame(){
-
 
         this.setContentPane(PanelCaixa);
         iconFolder("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconFolder.png");
@@ -58,8 +62,8 @@ public class CaixaFrame extends JFrame{
         actions();
         confJTable();
 
-        //DefaultTableModel dtm = (DefaultTableModel) JTableOrder.getModel();
-        //dtm.addRow(new String []{"10","Carne","200"});
+
+
     }
 
     public void iconFolder(String path){
@@ -74,31 +78,52 @@ public class CaixaFrame extends JFrame{
     }
 
     public void actions(){
+
+        //Action para o icone Folder iniciar a interface SeçectProdFrame
         JLabelFolderProd.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                SelectProdFrame selectProdFrame = new SelectProdFrame();
+                SelectProdFrame selectProdFrame = new SelectProdFrame(JTextFieldProd, JTextFielCod);
                 selectProdFrame.setLocationRelativeTo(null);
                 selectProdFrame.setVisible(true);
 
-                JTextFieldProd.setText(selectProdFrame.getProdName());
+            }
+        });
 
+        //Action para o campo Buscar Codigo
+        JTextFielCod.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                //Seta um valor no JTextFieldProd caso encontre o codigo ou o deixa vazio
+                if(JTextFielCod.getText().replace(" ","")!="")
+                    JTextFieldProd.setText(new MnpBD().searchProdCod(Integer.valueOf(JTextFielCod.getText().replace(" ",""))));
+            }
+        });
+
+        //Action para o botao add
+        JButtonAdd.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                //Verifica se os campos não estão em branco e retornar um erro cdaso esteja
+                if(JTextFieldProd.getText().isBlank() || JTextFielCod.getText().isBlank() || JTextFieldAmount.getText().isBlank())
+                    JOptionPane.showMessageDialog(PanelCaixa,"Prenecha todos os campos","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                else {
+                    //Tenta tranforma a quantidade em numero e adiconar na tabela de pedido
+                    try{
+                        Integer.valueOf(JTextFieldAmount.getText().replace(" ",""));
+
+
+                    }catch (NumberFormatException ex){
+                        JOptionPane.showMessageDialog(PanelCaixa,"Quantidade não é numero","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                    }catch (Exception exe){
+                        JOptionPane.showMessageDialog(PanelCaixa,"Cmapo com erro","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
         });
     }
-
-    public void startSelectProdFrame(){
-        SelectProdFrame selectProdFrame = new SelectProdFrame();
-        selectProdFrame.setLocationRelativeTo(null);
-        selectProdFrame.setVisible(true);
-    }
-
-    public void closeSelectProdFrame(){
-        SelectProdFrame selectProdFrame = new SelectProdFrame();
-        selectProdFrame.setLocationRelativeTo(null);
-        selectProdFrame.setVisible(true);
-    }
-
 
 }

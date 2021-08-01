@@ -1,5 +1,6 @@
 package view;
 
+import cls.bd.GetBD;
 import cls.bd.MnpBD;
 import cls.obj.Product;
 
@@ -27,44 +28,23 @@ public class SelectProdFrame extends JFrame{
     private JButton JButtonConfirm;
     private JTable JTableProdList;
     private JScrollPane JScrollPaneProdList;
+    private JTextField JTextFieldBackProd;
+    private JTextField JTextFieldBackCod;
 
-    public SelectProdFrame(){
+    public SelectProdFrame(JTextField jTextFieldProd,JTextField jTextFieldCod){
+        //Definindo variaveis e tela que sera mostrada
         this.setContentPane(JPanelSelecProd);
         this.setSize(new Dimension(500,(int)screenSize().getHeight()/2));
+        JTextFieldBackProd = jTextFieldProd;
+        JTextFieldBackCod = jTextFieldCod;
+
+        //Carregando icones e dados
         iconSearch("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSearch.png");
         confTable();
+        actions();
 
 
 
-
-
-
-
-        JLabelIconSearch.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                TableRowSorter tableSorter = new TableRowSorter(JTableProdList.getModel());
-                JTableProdList.setRowSorter(tableSorter);
-                tableSorter.toggleSortOrder(1);
-
-                for(int x=0;x<JTableProdList.getRowCount();x++){
-                    if(JTableProdList.getValueAt(x,1).toString().toLowerCase().contains(JTextFieldProd.getText().toLowerCase())) {
-                        JTableProdList.setRowSelectionInterval(x, x);
-                        break;
-                    }
-                }
-            }
-        });
-
-        JButtonConfirm.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                dispose();
-            }
-        });
     }
 
 
@@ -85,7 +65,7 @@ public class SelectProdFrame extends JFrame{
         JTableProdList.setModel(new DefaultTableModel(new Object[][]{}, new String[] {"Cod", "Produto", "Qtd.", "Valor"}));
         DefaultTableModel dmt = (DefaultTableModel) JTableProdList.getModel();
 
-        for (Product prod : new MnpBD().loadProd()) {
+        for (Product prod : new GetBD().loadProd()) {
             dmt.addRow(new String[] {String.valueOf(prod.getCod()), prod.getName(), String.valueOf(prod.getAmount()), String.valueOf(prod.getValue())});
         }
 
@@ -95,7 +75,41 @@ public class SelectProdFrame extends JFrame{
 
     }
 
-    public String getProdName(){
-        return JTableProdList.getValueAt(JTableProdList.getSelectedRow(),1).toString();
+    public void actions(){
+
+        //Action para o Icone Search
+        JLabelIconSearch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                TableRowSorter tableSorter = new TableRowSorter(JTableProdList.getModel());
+                JTableProdList.setRowSorter(tableSorter);
+                tableSorter.toggleSortOrder(1);
+                for(int x=0;x<JTableProdList.getRowCount();x++){
+                    if(JTableProdList.getValueAt(x,1).toString().toLowerCase().contains(JTextFieldProd.getText().toLowerCase())) {
+                        JTableProdList.setRowSelectionInterval(x, x);
+                        break;
+                    }
+                }
+
+            }
+        });
+
+        //Action para o botão confirmar
+        JButtonConfirm.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                try{
+                    JTextFieldBackCod.setText(JTableProdList.getValueAt(JTableProdList.getSelectedRow(),0).toString());
+                    JTextFieldBackProd.setText(JTableProdList.getValueAt(JTableProdList.getSelectedRow(),1).toString());
+                    dispose();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(rootPane,"Selecione um item da tabela","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
     }
 }

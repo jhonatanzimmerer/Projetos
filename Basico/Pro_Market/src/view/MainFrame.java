@@ -1,5 +1,6 @@
 package view;
 
+import cls.bd.GetBD;
 import cls.bd.MnpBD;
 import cls.obj.Product;
 
@@ -49,7 +50,7 @@ public class MainFrame extends JFrame{
 
         //Carrega a lista de produtos
         List<Product> listProduct = new ArrayList<>();
-        listProduct.addAll(new MnpBD().loadProd());
+        listProduct.addAll(new GetBD().loadProd());
 
 
         this.setVisible(true);

@@ -1,38 +1,27 @@
 package cls.bd;
 
+
 import cls.obj.Product;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MnpBD {
 
-    public List<Product> loadProd(){
+    //Retorna o produto de acordo com o codigo indicado
+    public String searchProdCod(int cod){
 
+        String prod = new GetBD().loadProdName(cod);
+        if (prod == null)
+            return "";
+        else
+            return prod;
+    }
+
+    //
+    public List<Product> validateProd(int cod, String name){
         List<Product> list = new ArrayList<>();
-        Connection con = ConnectionBD.GetConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
 
-        try{
-            stmt = con.prepareStatement("SELECT Cod, Produto, Quantidade, Valor FROM market.produto");
-            rs = stmt.executeQuery();
-
-            while(rs.next()){
-                Product product = new Product();
-                product.setCod(rs.getInt("Cod"));
-                product.setName(rs.getString("Produto"));
-                product.setAmount(rs.getInt("Quantidade"));
-                product.setValue(rs.getDouble("Valor"));
-                list.add(product);
-            }
-        }catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         return list;
     }
 

@@ -62,14 +62,5 @@ public class ConnectionBD {
             Logger.getLogger(ConnectionBD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void closeConnectionRS(ResultSet rs){
-        try {
-            if(rs != null)
-                rs.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro no closeConnectionRS" + ex);
-            Logger.getLogger(ConnectionBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
 }
