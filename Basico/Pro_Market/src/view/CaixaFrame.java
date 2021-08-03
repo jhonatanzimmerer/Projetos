@@ -84,10 +84,12 @@ public class CaixaFrame extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                SelectProdFrame selectProdFrame = new SelectProdFrame(JTextFieldProd, JTextFielCod);
-                selectProdFrame.setLocationRelativeTo(null);
-                selectProdFrame.setVisible(true);
-
+                if(JLabelFolderProd.isEnabled()){
+                    SelectProdFrame selectProdFrame = new SelectProdFrame(JTextFieldProd, JTextFielCod,JLabelFolderProd);
+                    selectProdFrame.setLocationRelativeTo(null);
+                    selectProdFrame.setVisible(true);
+                    JLabelFolderProd.setEnabled(false);
+                }
             }
         });
 

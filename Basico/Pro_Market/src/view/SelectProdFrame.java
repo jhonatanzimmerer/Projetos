@@ -28,15 +28,18 @@ public class SelectProdFrame extends JFrame{
     private JButton JButtonConfirm;
     private JTable JTableProdList;
     private JScrollPane JScrollPaneProdList;
+    //Usadaos para interagir com outra janela
     private JTextField JTextFieldBackProd;
     private JTextField JTextFieldBackCod;
+    private JLabel JLabelBackFolderProd;
 
-    public SelectProdFrame(JTextField jTextFieldProd,JTextField jTextFieldCod){
+    public SelectProdFrame(JTextField JTextFieldBackProd,JTextField JTextFieldBackCod, JLabel JLabelBackFolderProd){
         //Definindo variaveis e tela que sera mostrada
         this.setContentPane(JPanelSelecProd);
         this.setSize(new Dimension(500,(int)screenSize().getHeight()/2));
-        JTextFieldBackProd = jTextFieldProd;
-        JTextFieldBackCod = jTextFieldCod;
+        this.JTextFieldBackProd = JTextFieldBackProd;
+        this.JTextFieldBackCod = JTextFieldBackCod;
+        this.JLabelBackFolderProd = JLabelBackFolderProd;
 
         //Carregando icones e dados
         iconSearch("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSearch.png");
@@ -104,6 +107,7 @@ public class SelectProdFrame extends JFrame{
                 try{
                     JTextFieldBackCod.setText(JTableProdList.getValueAt(JTableProdList.getSelectedRow(),0).toString());
                     JTextFieldBackProd.setText(JTableProdList.getValueAt(JTableProdList.getSelectedRow(),1).toString());
+                    JLabelBackFolderProd.setEnabled(true);
                     dispose();
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(rootPane,"Selecione um item da tabela","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
