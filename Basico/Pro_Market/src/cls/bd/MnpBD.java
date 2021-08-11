@@ -3,6 +3,7 @@ package cls.bd;
 
 import cls.obj.Product;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,18 @@ public class MnpBD {
             return prod;
     }
 
-    //
-    public List<Product> validateProd(int cod, String name){
-        List<Product> list = new ArrayList<>();
+    //Valida se existe o produto
+    public Product validateProd(int cod, String prod){
+        Product product = new GetBD().loadProd(cod, prod);
 
-        return list;
+        if(product==null){
+            JOptionPane.showMessageDialog(null,"Quantidade não é numero","Campo invalido",JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        else{
+            return product;
+        }
+
     }
 
 }

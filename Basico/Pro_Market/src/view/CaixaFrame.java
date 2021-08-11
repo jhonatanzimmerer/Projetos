@@ -1,6 +1,7 @@
 package view;
 
 import cls.bd.MnpBD;
+import cls.obj.Product;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
@@ -74,7 +75,7 @@ public class CaixaFrame extends JFrame{
     }
 
     public void confJTable(){
-        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Qtd.", "Produto", "Valor"}));
+        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Produto", "Qtd.", "Valor"}));
     }
 
     public void actions(){
@@ -113,9 +114,16 @@ public class CaixaFrame extends JFrame{
                 if(JTextFieldProd.getText().isBlank() || JTextFielCod.getText().isBlank() || JTextFieldAmount.getText().isBlank())
                     JOptionPane.showMessageDialog(PanelCaixa,"Prenecha todos os campos","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                 else {
-                    //Tenta tranforma a quantidade em numero e adiconar na tabela de pedido
+                    //Tenta tranforma/capturar os valores de nome, cod e quantidade e adiconar na tabela de pedido
                     try{
-                        Integer.valueOf(JTextFieldAmount.getText().replace(" ",""));
+                        String prod = String.valueOf(JTextFieldProd.getText());
+                        int cod = Integer.valueOf(JTextFielCod.getText().replace(" ", ""));
+                        int mount = Integer.valueOf(JTextFieldAmount.getText().replace(" ",""));
+
+                        Product product = new MnpBD().validateProd(cod,prod);
+
+                        DefaultTableModel dmt = (DefaultTableModel) JTableOrder.getModel();
+                        dmt.addRow(new String[] {product.getName(),String.valueOf(mount),String.valueOf(product.getValue())});
 
 
                     }catch (NumberFormatException ex){

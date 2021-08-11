@@ -53,7 +53,6 @@ public class GetBD {
             //Evita estourarum catch por não encontrar um produto
             while(rs.next())
                 return rs.getString("Produto");
-
         }catch (SQLException throwables) {
             throwables.printStackTrace();
         }finally {
@@ -62,27 +61,33 @@ public class GetBD {
         return null;
     }
 
-    //Busca somente o nome e o codigo do produto
- /*   public List<Product> loadProd(int cod, String name){
-       Connection con = ConnectionBD.GetConnection();
-       PreparedStatement stmt = null;
-       ResultSet rs = null;
+    public Product loadProd(int cod,String prod){
+        Product product = new Product();
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-       try{
-           stmt = con.prepareStatement("SELECT Produto FROM market.produto where Cod = ?");
-           stmt.setInt(1,cod);
-           rs = stmt.executeQuery();
+        try{
+            stmt = con.prepareStatement("SELECT cod, produto, quantidade, valor FROM market.produto where Cod = ? and produto = ?");
+            stmt.setInt(1,cod);
+            stmt.setString(2,prod);
+            rs = stmt.executeQuery();
 
-           //Evita estourarum catch por não encontrar um produto
-           while(rs.next())
-               return rs.getString("Produto");
+            //Evita estourarum catch por não encontrar um produto
+            while(rs.next()) {
+                product.setCod(rs.getInt("Cod"));
+                product.setAmount(rs.getInt("Quantidade"));
+                product.setName(rs.getString("Produto"));
+                product.setValue(rs.getDouble("Valor"));
+                return product;
+            }
 
-       }catch (SQLException throwables) {
-           throwables.printStackTrace();
-       }finally {
-           ConnectionBD.closeConnection(con,stmt,rs);
-       }
-        return list;
-    }*/
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return null;
+    }
 
 }
