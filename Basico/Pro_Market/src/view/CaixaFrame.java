@@ -6,8 +6,12 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CaixaFrame extends JFrame{
 
@@ -52,17 +56,24 @@ public class CaixaFrame extends JFrame{
     private JPanel JPanelAmount;
     private javax.swing.JScrollPane JScrollPaneLeft;
     private JTextField JTextFielCod;
-    private JFormattedTextField formattedTextField1;
-
-
+    private JPanel JPanelConfPaySpace;
+    private JPanel JPanelInfoCustomer;
+    private JFormattedTextField JFormattedTextFieldDiscount;
+    private JLabel JLabelIconSearchConsumer;
+    private ButtonGroup groupSell;
+    private ButtonGroup groupPay;
     public CaixaFrame(){
 
         this.setContentPane(PanelCaixa);
         iconFolder("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconFolder.png");
+        iconSearch("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSearch.png");
+        JTextFieldAddress.setEnabled(false);
+        JTextFieldName.setEnabled(false);
+        JTextFieldReference.setEnabled(false);
 
         actions();
         confJTable();
-
+        confJRadio();
 
 
     }
@@ -74,8 +85,25 @@ public class CaixaFrame extends JFrame{
         JLabelFolderProd.setIcon(imageIcon);
     }
 
+    public void iconSearch(String path){
+        ImageIcon imageIcon = new ImageIcon(path);
+        JLabelIconSearchConsumer.setSize(16,16);
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(JLabelIconSearchConsumer.getWidth(), JLabelIconSearchConsumer.getHeight(), 1));
+        JLabelIconSearchConsumer.setIcon(imageIcon);
+    }
+
     public void confJTable(){
-        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Produto", "Qtd.", "Valor"}));
+        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Produto", "Qtd.", "V. Unitario", "V. Total"}));
+    }
+
+    public void confJRadio(){
+        groupSell = new ButtonGroup();
+        groupSell.add(JRadioButtonDelivery);
+        groupSell.add(JRadioButtonPresential);
+
+        groupPay = new ButtonGroup();
+        groupPay.add(JRadioButtonCash);
+        groupPay.add(JRadioButtonCredit);
     }
 
     public void actions(){
@@ -91,6 +119,7 @@ public class CaixaFrame extends JFrame{
                     selectProdFrame.setVisible(true);
                     JLabelFolderProd.setEnabled(false);
                 }
+
             }
         });
 
@@ -123,17 +152,100 @@ public class CaixaFrame extends JFrame{
                         Product product = new MnpBD().validateProd(cod,prod);
 
                         DefaultTableModel dmt = (DefaultTableModel) JTableOrder.getModel();
-                        dmt.addRow(new String[] {product.getName(),String.valueOf(mount),String.valueOf(product.getValue())});
+                        dmt.addRow(new String[] {String.valueOf(cod),product.getName(),String.valueOf(mount),String.valueOf(product.getValue()),String.valueOf(product.getValue()*mount)});
 
 
                     }catch (NumberFormatException ex){
                         JOptionPane.showMessageDialog(PanelCaixa,"Quantidade não é numero","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                     }catch (Exception exe){
-                        JOptionPane.showMessageDialog(PanelCaixa,"Cmapo com erro","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(PanelCaixa,"Campo com erro","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
         });
+
+        JRadioButtonDelivery.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JTextFieldAddress.setEnabled(true);
+                JTextFieldName.setEnabled(true);
+                JTextFieldReference.setEnabled(true);
+            }
+        });
+
+        JRadioButtonPresential.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JTextFieldAddress.setEnabled(false);
+                JTextFieldName.setEnabled(false);
+                JTextFieldReference.setEnabled(false);
+            }
+        });
+
+        JLabelIconSearchConsumer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName);
+                selectCustomer.setLocationRelativeTo(null);
+                selectCustomer.setVisible(true);
+                JTextFieldName.setEnabled(false);
+
+
+            }
+        });
+
+        JButtonFinish.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                try {
+                    List<Product> productList = new ArrayList<>();
+                    double total = 0;
+                    double discount = Double.valueOf(JFormattedTextFieldDiscount.getText().replace(" ",""));
+                    String type="";
+                    String pay="";
+                    if (JRadioButtonDelivery.isSelected())
+                        type = "D";
+                    else if (JRadioButtonPresential.isSelected())
+                        type = "P";
+                    if (JRadioButtonCash.isSelected())
+                        pay = "V";
+                    else if (JRadioButtonCredit.isSelected())
+                        pay = "C";
+
+                    for (int x = 0; x < JTableOrder.getRowCount(); x++) {
+                        Product prod = new Product();
+                        prod.setCod(Integer.valueOf(JTableOrder.getValueAt(x, 0).toString()));
+                        prod.setName(JTableOrder.getValueAt(x, 1).toString());
+                        prod.setAmount(Integer.valueOf(JTableOrder.getValueAt(x, 2).toString()));
+                        prod.setValue(Double.valueOf(JTableOrder.getValueAt(x, 3).toString()));
+                        total = total + Double.valueOf(JTableOrder.getValueAt(x, 4).toString());
+                        productList.add(prod);
+                    }
+
+                    if(type=="")
+                        JOptionPane.showMessageDialog(PanelCaixa,"Selecione o Tipo de Venda","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                    else if(pay=="")
+                        JOptionPane.showMessageDialog(PanelCaixa,"Selecione a Forma de Pagamento","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                    else if(JTableOrder.getRowCount()==0)
+                        JOptionPane.showMessageDialog(PanelCaixa,"Sem itens na tabela para realizar a venda","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                    else {
+                        new MnpBD().executeSell(productList, total, discount, type, pay);
+                        JOptionPane.showMessageDialog(PanelCaixa,"Venda Ralizada Com Sucesso","Venda",1);
+                    }
+
+
+                }catch(NumberFormatException ex){
+                    JOptionPane.showMessageDialog(PanelCaixa,"Desconto Invalido","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(PanelCaixa,"ERRO: "+ex,"ERRO",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
+
 
 }

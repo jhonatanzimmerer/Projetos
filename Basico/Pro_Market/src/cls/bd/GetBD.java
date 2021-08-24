@@ -60,7 +60,7 @@ public class GetBD {
         }
         return null;
     }
-
+    //Busca o prorudto de acordo com o nome e o codigo
     public Product loadProd(int cod,String prod){
         Product product = new Product();
         Connection con = ConnectionBD.GetConnection();
@@ -90,4 +90,27 @@ public class GetBD {
         return null;
     }
 
+    //Busca o maior cod da tabela de venda
+    public int loadMaxCod(){
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            stmt = con.prepareStatement("SELECT MAX(Cod) FROM market.venda");
+            rs = stmt.executeQuery();
+
+            //Evita estourarum catch por não encontrar um produto
+            while(rs.next()) {
+                int cod = rs.getInt("MAX(Cod)");
+                return cod;
+            }
+
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return 0;
+    }
 }
