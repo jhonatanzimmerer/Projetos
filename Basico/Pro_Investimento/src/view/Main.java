@@ -9,9 +9,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,11 +27,16 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import model.ConnectionBD;
 import model.Mnp;
 import model.Momento;
 import model.Operacao;
 import model.OperacaoM;
 import model.Venda;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -121,6 +128,7 @@ public class Main extends javax.swing.JFrame {
         Txtlocal = new javax.swing.JTextField();
         Btnimportar = new javax.swing.JButton();
         BtnSelect = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         Jp_OperacaoB = new javax.swing.JPanel();
         Jp_top = new javax.swing.JPanel();
         BtnConfirmarano = new javax.swing.JButton();
@@ -477,6 +485,13 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout Jp_AdicionarBLayout = new javax.swing.GroupLayout(Jp_AdicionarB);
         Jp_AdicionarB.setLayout(Jp_AdicionarBLayout);
         Jp_AdicionarBLayout.setHorizontalGroup(
@@ -518,6 +533,10 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(Rbvenda)
                     .addComponent(Rbfii))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Jp_AdicionarBLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(324, 324, 324))
         );
         Jp_AdicionarBLayout.setVerticalGroup(
             Jp_AdicionarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,7 +571,9 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(Jp_AdicionarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Rbacao)
                             .addComponent(Rbfii))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+                        .addGap(87, 87, 87)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                         .addGroup(Jp_AdicionarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Bntconfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Bntlimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1850,7 +1871,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_BntlimparActionPerformed
 
     private void BntconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntconfirmarActionPerformed
-            String ativo = Txtativo.getText();
+      
+        String ativo = Txtativo.getText();
             int quantidade = Integer.valueOf(Txtquantidade.getText());
             float preco = Float.valueOf(Txtpreco.getText().replace(",", "."));
             String data = ConvertDate(Txtdata.getText());
@@ -2163,6 +2185,18 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BtnConfirmaranoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+           Connection con;
+        try {
+            con = ConnectionBD.GetConnection();
+            JasperPrint print = JasperFillManager.fillReport("C:/Users/jhonatan/Documents/GitProjectPessoal/Projetos/Basico/Pro_Investimento/src/view/report1.jasper", null,con);
+            JasperViewer.viewReport(print,false);
+        } catch (JRException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2321,6 +2355,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField Txtlocal;
     private javax.swing.JTextField Txtpreco;
     private javax.swing.JTextField Txtquantidade;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;

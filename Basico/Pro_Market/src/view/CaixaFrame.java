@@ -76,6 +76,7 @@ public class CaixaFrame extends JFrame{
         confJRadio();
 
 
+
     }
 
     public void iconFolder(String path){
@@ -164,23 +165,61 @@ public class CaixaFrame extends JFrame{
             }
         });
 
-        JRadioButtonDelivery.addMouseListener(new MouseAdapter() {
+        JRadioButtonDelivery.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 JTextFieldAddress.setEnabled(true);
                 JTextFieldName.setEnabled(true);
                 JTextFieldReference.setEnabled(true);
             }
         });
 
-        JRadioButtonPresential.addMouseListener(new MouseAdapter() {
+        JRadioButtonPresential.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                JTextFieldAddress.setEnabled(false);
-                JTextFieldName.setEnabled(false);
-                JTextFieldReference.setEnabled(false);
+            public void actionPerformed(ActionEvent e) {
+                if(JRadioButtonCredit.isSelected()){
+                    JTextFieldAddress.setEnabled(false);
+                    JTextFieldName.setEnabled(true);
+                    JTextFieldReference.setEnabled(false);
+                }
+                else{
+                    JTextFieldAddress.setEnabled(false);
+                    JTextFieldName.setEnabled(false);
+                    JTextFieldReference.setEnabled(false);
+                }
+            }
+        });
+
+        JRadioButtonCash.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(JRadioButtonDelivery.isSelected()){
+                    JTextFieldAddress.setEnabled(true);
+                    JTextFieldName.setEnabled(true);
+                    JTextFieldReference.setEnabled(true);
+                }
+                else{
+                    JTextFieldAddress.setEnabled(false);
+                    JTextFieldName.setEnabled(false);
+                    JTextFieldReference.setEnabled(false);
+                }
+
+            }
+        });
+
+        JRadioButtonCredit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(JRadioButtonDelivery.isSelected()){
+                    JTextFieldAddress.setEnabled(true);
+                    JTextFieldName.setEnabled(true);
+                    JTextFieldReference.setEnabled(true);
+                }
+                else{
+                    JTextFieldAddress.setEnabled(false);
+                    JTextFieldName.setEnabled(true);
+                    JTextFieldReference.setEnabled(false);
+                }
             }
         });
 
@@ -188,10 +227,20 @@ public class CaixaFrame extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName);
-                selectCustomer.setLocationRelativeTo(null);
-                selectCustomer.setVisible(true);
-                JTextFieldName.setEnabled(false);
+                if(JLabelIconSearchConsumer.isEnabled()) {
+                    if(JRadioButtonDelivery.isSelected()){
+                        SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName,JLabelIconSearchConsumer);
+                        selectCustomer.setLocationRelativeTo(null);
+                        selectCustomer.setVisible(true);
+                    }
+                    else{
+                        SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName,JTextFieldAddress,JTextFieldReference,JLabelIconSearchConsumer);
+                        selectCustomer.setLocationRelativeTo(null);
+                        selectCustomer.setVisible(true);
+                    }
+
+                    JLabelIconSearchConsumer.setEnabled(false);
+                }
 
 
             }
@@ -207,6 +256,8 @@ public class CaixaFrame extends JFrame{
                     double discount = Double.valueOf(JFormattedTextFieldDiscount.getText().replace(" ",""));
                     String type="";
                     String pay="";
+                    String adress = JTextFieldAddress.getText().trim();
+                    String ref = JTextFieldReference.getText().trim();
                     if (JRadioButtonDelivery.isSelected())
                         type = "D";
                     else if (JRadioButtonPresential.isSelected())
@@ -233,8 +284,10 @@ public class CaixaFrame extends JFrame{
                     else if(JTableOrder.getRowCount()==0)
                         JOptionPane.showMessageDialog(PanelCaixa,"Sem itens na tabela para realizar a venda","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                     else {
-                        new MnpBD().executeSell(productList, total, discount, type, pay);
-                        JOptionPane.showMessageDialog(PanelCaixa,"Venda Ralizada Com Sucesso","Venda",1);
+                        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Produto", "Qtd.", "V. Unitario", "V. Total"}));
+                        ConfirmSell confirmSell = new ConfirmSell(productList, total, discount, type, pay,adress,ref);
+                        confirmSell.setVisible(true);
+                        confirmSell.setLocationRelativeTo(PanelCaixa);
                     }
 
 

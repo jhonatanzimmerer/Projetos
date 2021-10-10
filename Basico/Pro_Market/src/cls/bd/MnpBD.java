@@ -34,16 +34,14 @@ public class MnpBD {
     }
 
     //Realiza uma venda
-    public void executeSell(List<Product> productList, double total, double discount, String type, String pay){
+    public void executeSell(List<Product> productList, double total, double discount, String type, String pay, String payType, String adress, String ref){
         try{
-            System.out.println("aqui1");
-            new SetBD().sellOrder(total-discount, discount, type, pay);
-            System.out.println("aqui2");
+            new SetBD().sellOrder(total-discount, discount, type, pay, payType, adress, ref);
             for(Product prod:productList) {
                 if (pay == "V")
                     executeSellCash(prod);
-                else if (pay == "F")
-                    executeSellCredit();
+                //else if (pay == "F")
+                    //executeSellCard();
             }
         }catch (Exception ex){
 
@@ -60,9 +58,15 @@ public class MnpBD {
         }
 
     }
-    //Pagamento no fiado
-    public void executeSellCredit(){
 
+    //Pagamento no fiado
+    public void executeSellCard(Product prod){
+        try{
+            new SetBD().sellOrderCash(prod, new GetBD().loadMaxCod());
+        }catch (Exception ex){
+
+        }
     }
+
 
 }

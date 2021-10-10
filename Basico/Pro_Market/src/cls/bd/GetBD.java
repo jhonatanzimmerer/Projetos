@@ -1,5 +1,6 @@
 package cls.bd;
 
+import cls.obj.Customer;
 import cls.obj.Product;
 
 import java.sql.Connection;
@@ -60,6 +61,7 @@ public class GetBD {
         }
         return null;
     }
+
     //Busca o prorudto de acordo com o nome e o codigo
     public Product loadProd(int cod,String prod){
         Product product = new Product();
@@ -112,5 +114,33 @@ public class GetBD {
             ConnectionBD.closeConnection(con,stmt,rs);
         }
         return 0;
+    }
+
+    public List<Customer> locaCustomer(){
+        List<Customer> list = new ArrayList<>();
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            stmt = con.prepareStatement("SELECT * FROM market.cliente");
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Customer customer = new Customer();
+                customer.setCod(rs.getInt("Cod"));
+                customer.setName(rs.getString("Nome"));
+                customer.setCompany(rs.getString("Empresa"));
+                customer.setAdress(rs.getString("Endereco"));
+                customer.setReference(rs.getString("Referencia"));
+                customer.setPhone(rs.getString("Telefone"));
+                list.add(customer);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return list;
     }
 }
