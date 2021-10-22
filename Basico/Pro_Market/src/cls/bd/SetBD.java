@@ -11,19 +11,19 @@ import java.sql.SQLException;
 
 public class SetBD {
 
-    public void sellOrder(double total, double discount, String type, String pay, String payType, String adress, String ref){
+    public void sellOrder(double total, double discount, String type, String pay, String payType, String adress, String ref,String payTotal){
         Connection con = ConnectionBD.GetConnection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
 
         try{
-            stmt = con.prepareStatement("INSERT INTO market.venda (Total,Tipo,Pagamento,Endereco,Referencia,Desconto) VALUES(?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO market.venda (Total,Tipo,Pagamento,Endereco,Referencia,Desconto,Pg_Total) VALUES(?,?,?,?,?,?,?)");
             stmt.setDouble(1,total);
             stmt.setString(2,type);
             stmt.setString(3,payType);
             stmt.setString(4,adress);
             stmt.setString(5,ref);
             stmt.setDouble(6,discount);
+            stmt.setString(7,payTotal);
             stmt.executeUpdate();
         }catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -50,22 +50,22 @@ public class SetBD {
         }
     }
 
-    public void sellOrderCredit(int cod, double total, String type, String pay ){
+    public void sellOrderCredit(Product prod, int cod, String name){
         Connection con = ConnectionBD.GetConnection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
 
         try{
-            stmt = con.prepareStatement("INSERT INTO market.venda VALUES(?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO market.venda_fiado VALUES(?,?,?,?,?)");
             stmt.setInt(1,cod);
-            stmt.setDouble(2,total);
-            stmt.setString(3,type);
-            stmt.setString(4,pay);
+            stmt.setInt(2,prod.getCod());
+            stmt.setString(3,name);
+            stmt.setInt(4,prod.getAmount());
+            stmt.setDouble(5,prod.getValue());
             stmt.executeUpdate();
         }catch (SQLException throwables) {
             throwables.printStackTrace();
         }finally {
-            ConnectionBD.closeConnection(con,stmt,rs);
+            ConnectionBD.closeConnection(con,stmt);
         }
     }
 

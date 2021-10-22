@@ -18,9 +18,11 @@ public class SelectCustomer extends JFrame{
     private JLabel JLabelFolder;
     private JLabel JLabelFilter;
     private JLabel JLabelIconSearch;
-    private JScrollPane JScrollPaneTable;
+    private JScrollPane JScrollPaneBody;
     private JButton JButtonCadastrar;
     private JButton JButtonRefresh;
+    private JPanel JPanelHeader;
+    private JPanel JPanelFoot;
     private JTextField JTextFieldBackName;
     private JTextField JTextFieldBackAddress;
     private JTextField JTextFieldBackReference;
@@ -58,6 +60,7 @@ public class SelectCustomer extends JFrame{
 
     public void confJTable(){
         JTableCustomerList.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Nome","Empresa", "Endereco", "Referencia", "Telefone"}));
+        JTableCustomerList.getTableHeader().setReorderingAllowed (false);
         loadTableBd((DefaultTableModel) JTableCustomerList.getModel());
 
     }

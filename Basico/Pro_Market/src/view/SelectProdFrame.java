@@ -28,6 +28,8 @@ public class SelectProdFrame extends JFrame{
     private JButton JButtonConfirm;
     private JTable JTableProdList;
     private JScrollPane JScrollPaneProdList;
+    private JButton JButtonAdd;
+    private JButton JButtonExit;
     //Usadaos para interagir com outra janela
     private JTextField JTextFieldBackProd;
     private JTextField JTextFieldBackCod;
@@ -40,14 +42,19 @@ public class SelectProdFrame extends JFrame{
         this.JTextFieldBackProd = JTextFieldBackProd;
         this.JTextFieldBackCod = JTextFieldBackCod;
         this.JLabelBackFolderProd = JLabelBackFolderProd;
+        this.setUndecorated(true);
 
         //Carregando icones e dados
         iconSearch("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSearch.png");
         confTable();
         actions();
 
+        JButtonAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-
+            }
+        });
     }
 
 
@@ -115,5 +122,12 @@ public class SelectProdFrame extends JFrame{
             }
         });
 
+        JButtonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabelBackFolderProd.setEnabled(true);
+                dispose();
+            }
+        });
     }
 }

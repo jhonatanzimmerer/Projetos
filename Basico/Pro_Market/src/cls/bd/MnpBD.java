@@ -34,15 +34,16 @@ public class MnpBD {
     }
 
     //Realiza uma venda
-    public void executeSell(List<Product> productList, double total, double discount, String type, String pay, String payType, String adress, String ref){
+    public void executeSell(List<Product> productList, double total, double discount, String type, String pay, String payType, String adress, String ref, String payTotal, String name){
         try{
-            new SetBD().sellOrder(total-discount, discount, type, pay, payType, adress, ref);
+            new SetBD().sellOrder(total-discount, discount, type, pay, payType, adress, ref,payTotal);
             for(Product prod:productList) {
                 if (pay == "V")
                     executeSellCash(prod);
-                //else if (pay == "F")
-                    //executeSellCard();
+                else if (pay == "C")
+                    executeSellCredit(prod,name);
             }
+            JOptionPane.showMessageDialog(null,"Venda Realizada!");
         }catch (Exception ex){
 
         }
@@ -60,9 +61,9 @@ public class MnpBD {
     }
 
     //Pagamento no fiado
-    public void executeSellCard(Product prod){
+    public void executeSellCredit(Product prod, String name){
         try{
-            new SetBD().sellOrderCash(prod, new GetBD().loadMaxCod());
+            new SetBD().sellOrderCredit(prod, new GetBD().loadMaxCod(), name);
         }catch (Exception ex){
 
         }

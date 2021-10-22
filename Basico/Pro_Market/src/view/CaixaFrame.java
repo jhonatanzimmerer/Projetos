@@ -95,6 +95,7 @@ public class CaixaFrame extends JFrame{
 
     public void confJTable(){
         JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Produto", "Qtd.", "V. Unitario", "V. Total"}));
+        JTableOrder.getTableHeader().setReorderingAllowed(false);
     }
 
     public void confJRadio(){
@@ -170,6 +171,7 @@ public class CaixaFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 JTextFieldAddress.setEnabled(true);
                 JTextFieldName.setEnabled(true);
+                JLabelIconSearchConsumer.setEnabled(true);
                 JTextFieldReference.setEnabled(true);
             }
         });
@@ -180,11 +182,13 @@ public class CaixaFrame extends JFrame{
                 if(JRadioButtonCredit.isSelected()){
                     JTextFieldAddress.setEnabled(false);
                     JTextFieldName.setEnabled(true);
+                    JLabelIconSearchConsumer.setEnabled(true);
                     JTextFieldReference.setEnabled(false);
                 }
                 else{
                     JTextFieldAddress.setEnabled(false);
                     JTextFieldName.setEnabled(false);
+                    JLabelIconSearchConsumer.setEnabled(false);
                     JTextFieldReference.setEnabled(false);
                 }
             }
@@ -196,11 +200,13 @@ public class CaixaFrame extends JFrame{
                 if(JRadioButtonDelivery.isSelected()){
                     JTextFieldAddress.setEnabled(true);
                     JTextFieldName.setEnabled(true);
+                    JLabelIconSearchConsumer.setEnabled(true);
                     JTextFieldReference.setEnabled(true);
                 }
                 else{
                     JTextFieldAddress.setEnabled(false);
                     JTextFieldName.setEnabled(false);
+                    JLabelIconSearchConsumer.setEnabled(false);
                     JTextFieldReference.setEnabled(false);
                 }
 
@@ -213,11 +219,13 @@ public class CaixaFrame extends JFrame{
                 if(JRadioButtonDelivery.isSelected()){
                     JTextFieldAddress.setEnabled(true);
                     JTextFieldName.setEnabled(true);
+                    JLabelIconSearchConsumer.setEnabled(true);
                     JTextFieldReference.setEnabled(true);
                 }
                 else{
                     JTextFieldAddress.setEnabled(false);
                     JTextFieldName.setEnabled(true);
+                    JLabelIconSearchConsumer.setEnabled(true);
                     JTextFieldReference.setEnabled(false);
                 }
             }
@@ -258,6 +266,7 @@ public class CaixaFrame extends JFrame{
                     String pay="";
                     String adress = JTextFieldAddress.getText().trim();
                     String ref = JTextFieldReference.getText().trim();
+                    String name = JTextFieldName.getText().trim();
                     if (JRadioButtonDelivery.isSelected())
                         type = "D";
                     else if (JRadioButtonPresential.isSelected())
@@ -284,10 +293,19 @@ public class CaixaFrame extends JFrame{
                     else if(JTableOrder.getRowCount()==0)
                         JOptionPane.showMessageDialog(PanelCaixa,"Sem itens na tabela para realizar a venda","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                     else {
-                        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Produto", "Qtd.", "V. Unitario", "V. Total"}));
-                        ConfirmSell confirmSell = new ConfirmSell(productList, total, discount, type, pay,adress,ref);
-                        confirmSell.setVisible(true);
-                        confirmSell.setLocationRelativeTo(PanelCaixa);
+                        if(pay=="V"){
+                            ConfirmSell confirmSell = new ConfirmSell(productList, total, discount, type, pay,adress,ref);
+                            confirmSell.setVisible(true);
+                            confirmSell.setLocationRelativeTo(PanelCaixa);
+                        }
+                        else if(pay=="C"){
+                            try{
+                                new MnpBD().executeSell(productList,total,discount,type,pay,"",adress,ref,"0",name);
+                            }catch(Exception ex){
+
+                            }
+                        }
+                        clearSell();
                     }
 
 
@@ -298,6 +316,26 @@ public class CaixaFrame extends JFrame{
                 }
             }
         });
+    }
+
+    public void clearSell(){
+        //limpa a tabela
+        JTableOrder.setModel(new DefaultTableModel(new Object [][] {},new String [] {"Cod","Produto", "Qtd.", "V. Unitario", "V. Total"}));
+
+        //Limpar os campos dos produtos
+        JTextFielCod.setText("");
+        JTextFieldProd.setText("");
+        JTextFieldAmount.setText("");
+
+        groupPay.clearSelection();
+        groupSell.clearSelection();
+
+        //Limpar os campos do cliente
+        JTextFieldName.setText("");
+        JTextFieldAddress.setText("");
+        JTextFieldReference.setText("");
+
+
     }
 
 
