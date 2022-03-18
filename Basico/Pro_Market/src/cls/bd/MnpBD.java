@@ -34,9 +34,9 @@ public class MnpBD {
     }
 
     //Realiza uma venda
-    public void executeSell(List<Product> productList, double total, double discount, String type, String pay, String payType, String adress, String ref, String payTotal, String name){
+    public void executeSell(List<Product> productList, double total, double discount, String type, String pay, String payType, String adress, String ref, String payTotal, String name, String date){
         try{
-            new SetBD().sellOrder(total-discount, discount, type, pay, payType, adress, ref,payTotal);
+            new SetBD().sellOrder(total-discount, discount, type, pay, payType, adress, ref,payTotal,convetDate(date));
             for(Product prod:productList) {
                 if (pay == "V")
                     executeSellCash(prod);
@@ -49,7 +49,6 @@ public class MnpBD {
         }
 
     }
-
     //Pagamento a vista
     public void executeSellCash(Product prod){
         try{
@@ -59,7 +58,6 @@ public class MnpBD {
         }
 
     }
-
     //Pagamento no fiado
     public void executeSellCredit(Product prod, String name){
         try{
@@ -69,5 +67,11 @@ public class MnpBD {
         }
     }
 
+    //
+    public String convetDate(String date){
+        String[] dates = date.split("/");
+        date = dates[2]+"-"+dates[1]+"-"+dates[0];
+        return date;
+    }
 
 }

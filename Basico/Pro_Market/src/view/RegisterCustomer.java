@@ -22,6 +22,7 @@ public class RegisterCustomer extends JFrame {
         this.setDefaultCloseOperation(RegisterCustomer.DISPOSE_ON_CLOSE);
         this.setSize(400,300);
         this.setLocationRelativeTo(null);
+        this.setUndecorated(true);
 
 
         JButtonConfirm.addActionListener(new ActionListener() {

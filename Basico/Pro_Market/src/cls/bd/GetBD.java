@@ -2,6 +2,8 @@ package cls.bd;
 
 import cls.obj.Customer;
 import cls.obj.Product;
+import cls.obj.Sell;
+import cls.obj.SellCash;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -143,4 +145,97 @@ public class GetBD {
         }
         return list;
     }
+
+    public List<Sell> loadSell(){
+        List<Sell> list = new ArrayList<>();
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            stmt = con.prepareStatement("SELECT * FROM market.venda");
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Sell sell = new Sell();
+
+                sell.setCod(rs.getInt("Cod"));
+                sell.setTotal(rs.getDouble("Total"));
+                sell.setType(rs.getString("Tipo"));
+                sell.setPayment(rs.getString("Pagamento"));
+                sell.setAdress(rs.getString("Endereco"));
+                sell.setReference(rs.getString("Referencia"));
+                sell.setDiscount(rs.getDouble("Desconto"));
+                sell.setPayTotal(rs.getString("Pg_Total"));
+                sell.setDate(rs.getString("date"));
+
+                list.add(sell);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return list;
+    }
+
+    public List<SellCash> loadSellCash(){
+        List<SellCash> list = new ArrayList<>();
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            stmt = con.prepareStatement("SELECT * FROM market.venda_vista");
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                SellCash sellCash = new SellCash();
+
+                sellCash.setCod(rs.getInt("Cod"));
+                sellCash.setProduct(rs.getString(""));
+
+                list.add(sell);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return list;
+    }
+
+    public List<SellCredit> loadSellCredit(){
+        List<Sell> list = new ArrayList<>();
+        Connection con = ConnectionBD.GetConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            stmt = con.prepareStatement("SELECT * FROM market.venda");
+            rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Sell sell = new Sell();
+
+                sell.setCod(rs.getInt("Cod"));
+                sell.setTotal(rs.getDouble("Total"));
+                sell.setType(rs.getString("Tipo"));
+                sell.setPayment(rs.getString("Pagamento"));
+                sell.setAdress(rs.getString("Endereco"));
+                sell.setReference(rs.getString("Referencia"));
+                sell.setDiscount(rs.getDouble("Desconto"));
+                sell.setPayTotal(rs.getString("Pg_Total"));
+                sell.setDate(rs.getString("date"));
+
+                list.add(sell);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            ConnectionBD.closeConnection(con,stmt,rs);
+        }
+        return list;
+    }
+
 }

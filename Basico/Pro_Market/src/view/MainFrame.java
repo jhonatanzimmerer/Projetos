@@ -31,13 +31,21 @@ public class MainFrame extends JFrame{
     private JLabel JLabelCaixa;
     private JPanel JPaneliconCaixa;
     private JPanel JPanelContentSpace3;
+    private JLabel JLabelSellCredit;
 
+
+    public MainFrame() {
+
+
+    }
 
     public void start(){
         //seta o painel principal, define o fim da operação e define o tamanho 151pixel
         this.setContentPane(PanelMain);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280,720);
+        this.setLocationRelativeTo(null);
+        actions();
 
         //Carrega os icones do painel principal
         iconLogin("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconLogin.png");
@@ -54,6 +62,26 @@ public class MainFrame extends JFrame{
 
 
         this.setVisible(true);
+    }
+
+    public void actions(){
+
+        JLabelSellCredit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                sellPanel();
+            }
+        });
+
+        JLabelIconCaixa.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                caixaPanel();
+            }
+        });
+
     }
 
     public void iconLogin(String path){
@@ -85,11 +113,14 @@ public class MainFrame extends JFrame{
     }
 
     public void caixaPanel(){
+        JPanelBody.removeAll();
         CaixaFrame caixaFrame = new CaixaFrame();
-        this.JPanelBody.add(caixaFrame.getContentPane()).setSize(JPanelBody.getSize());
+        JPanelBody.add(caixaFrame.getContentPane()).setSize(JPanelBody.getSize());
+        JPanelBody.revalidate();
     }
 
-    public void lockFrame(boolean lock){
-        this.setEnabled(lock);
+    public void sellPanel(){
+        new SellList().setVisible(true);
     }
+
 }

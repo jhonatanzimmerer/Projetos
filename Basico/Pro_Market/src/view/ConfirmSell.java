@@ -5,6 +5,9 @@ import cls.obj.Product;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ConfirmSell extends JFrame {
@@ -26,18 +29,22 @@ public class ConfirmSell extends JFrame {
     private JComboBox JComboBoxPayment;
     private JFormattedTextField JFormattedTextFieldDebt;
     private JFormattedTextField JFormattedTextFieldCredit;
+    private JCheckBox JCheckBoxDate;
+    private JTextField JTextFieldDate;
     private ButtonGroup groupPayment;
 
-    public ConfirmSell(List<Product> productList, Double total,double discount,String type,String pay,String adress, String ref){
+    public ConfirmSell(List<Product> productList, Double total,double discount,String type,String pay,String adress, String ref,String date){
         this.setContentPane(PanelMain);
         this.setSize(400,300);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setUndecorated(true);
         JLabelTotal.setText(total.toString());
         JButtonConfirm.setEnabled(false);
         JButtonCalc.setEnabled(false);
         JFormattedTextFieldCash.setEnabled(false);
         action();
         confRadio();
+        JTextFieldDate.setText(date);
         //Inserir no banco de dados. Esta fora do padrão pra evitar ficar repetindo variavel
         JButtonConfirm.addMouseListener(new MouseAdapter() {
             @Override
@@ -82,8 +89,20 @@ public class ConfirmSell extends JFrame {
 
                     }
                     if(payType!="" && payTotal!="") {
-                        if(Double.valueOf(JFormattedTextFieldCash.getText().trim())+Double.valueOf(JFormattedTextFieldDebt.getText().trim())+Double.valueOf(JFormattedTextFieldCredit.getText().trim())==Double.valueOf(JLabelTotal.getText().trim())){
-                            new MnpBD().executeSell(productList, total, discount, type, pay, payType, adress, ref, payTotal,null);
+                        double cash = 0;
+                        double debt = 0;
+                        double credit = 0;
+                        double total = 0;
+                        if(!JFormattedTextFieldCash.getText().isBlank())
+                            cash = Double.valueOf(JFormattedTextFieldCash.getText().trim());
+                        if(!JFormattedTextFieldDebt.getText().isBlank())
+                            debt = Double.valueOf(JFormattedTextFieldDebt.getText().trim());
+                        if(!JFormattedTextFieldCredit.getText().isBlank())
+                            credit = Double.valueOf(JFormattedTextFieldCredit.getText().trim());
+                        if(!JLabelTotal.getText().trim().isBlank())
+                            total = Double.valueOf(JLabelTotal.getText().trim());
+                        if(cash+debt+credit == total){
+                            new MnpBD().executeSell(productList, total, discount, type, pay, payType, adress, ref, payTotal,null,date);
                             dispose();
                         }
 
@@ -91,6 +110,8 @@ public class ConfirmSell extends JFrame {
                 }
             }
         });
+
+
 
     }
 
@@ -205,6 +226,16 @@ public class ConfirmSell extends JFrame {
             }
         });
 
+        JCheckBoxDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!JTextFieldDate.isEnabled())
+                    JTextFieldDate.setEnabled(true);
+                else
+                    JTextFieldDate.setEnabled(false);
+            }
+        });
+
     }
 
     public void calcularTroco(){
@@ -218,6 +249,5 @@ public class ConfirmSell extends JFrame {
         groupPayment.add(JRadioButtonCredit);
         groupPayment.add(JRadioButtonDebt);
     }
-
 
 }

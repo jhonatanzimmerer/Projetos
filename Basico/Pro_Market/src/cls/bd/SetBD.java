@@ -11,12 +11,12 @@ import java.sql.SQLException;
 
 public class SetBD {
 
-    public void sellOrder(double total, double discount, String type, String pay, String payType, String adress, String ref,String payTotal){
+    public void sellOrder(double total, double discount, String type, String pay, String payType, String adress, String ref,String payTotal, String date){
         Connection con = ConnectionBD.GetConnection();
         PreparedStatement stmt = null;
 
         try{
-            stmt = con.prepareStatement("INSERT INTO market.venda (Total,Tipo,Pagamento,Endereco,Referencia,Desconto,Pg_Total) VALUES(?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO market.venda (Total,Tipo,Pagamento,Endereco,Referencia,Desconto,Pg_Total,date) VALUES(?,?,?,?,?,?,?,?)");
             stmt.setDouble(1,total);
             stmt.setString(2,type);
             stmt.setString(3,payType);
@@ -24,6 +24,7 @@ public class SetBD {
             stmt.setString(5,ref);
             stmt.setDouble(6,discount);
             stmt.setString(7,payTotal);
+            stmt.setString(8,date);
             stmt.executeUpdate();
         }catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -73,6 +73,7 @@ public class SelectProdFrame extends JFrame{
     public void confTable(){
 
         JTableProdList.setModel(new DefaultTableModel(new Object[][]{}, new String[] {"Cod", "Produto", "Qtd.", "Valor"}));
+        JTableProdList.getTableHeader().setReorderingAllowed(false);
         DefaultTableModel dmt = (DefaultTableModel) JTableProdList.getModel();
 
         for (Product prod : new GetBD().loadProd()) {

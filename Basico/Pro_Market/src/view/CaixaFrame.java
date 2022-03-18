@@ -2,15 +2,13 @@ package view;
 
 import cls.bd.MnpBD;
 import cls.obj.Product;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CaixaFrame extends JFrame{
@@ -60,23 +58,31 @@ public class CaixaFrame extends JFrame{
     private JPanel JPanelInfoCustomer;
     private JFormattedTextField JFormattedTextFieldDiscount;
     private JLabel JLabelIconSearchConsumer;
+    private JCheckBox JCheckBoxDate;
+    private JTextField JTextFieldDate;
     private ButtonGroup groupSell;
     private ButtonGroup groupPay;
+
     public CaixaFrame(){
 
         this.setContentPane(PanelCaixa);
         iconFolder("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconFolder.png");
         iconSearch("C:\\Users\\jhonatan\\Documents\\GitProjectPessoal\\Projetos\\Basico\\Pro_Market\\out\\artifacts\\Pro_Market_jar\\icon\\iconSearch.png");
-        JTextFieldAddress.setEnabled(false);
-        JTextFieldName.setEnabled(false);
-        JTextFieldReference.setEnabled(false);
-
         actions();
         confJTable();
         confJRadio();
+        start();
 
 
 
+    }
+
+    public void start(){
+        JTextFieldAddress.setEnabled(false);
+        JTextFieldName.setEnabled(false);
+        JTextFieldReference.setEnabled(false);
+        JLabelIconSearchConsumer.setEnabled(false);
+        JTextFieldDate.setText(dateNow());
     }
 
     public void iconFolder(String path){
@@ -109,6 +115,16 @@ public class CaixaFrame extends JFrame{
     }
 
     public void actions(){
+
+        JCheckBoxDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!JTextFieldDate.isEnabled())
+                    JTextFieldDate.setEnabled(true);
+                else
+                    JTextFieldDate.setEnabled(false);
+            }
+        });
 
         //Action para o icone Folder iniciar a interface SeçectProdFrame
         JLabelFolderProd.addMouseListener(new MouseAdapter() {
@@ -173,6 +189,8 @@ public class CaixaFrame extends JFrame{
                 JTextFieldName.setEnabled(true);
                 JLabelIconSearchConsumer.setEnabled(true);
                 JTextFieldReference.setEnabled(true);
+
+                clearCustomer();
             }
         });
 
@@ -191,6 +209,7 @@ public class CaixaFrame extends JFrame{
                     JLabelIconSearchConsumer.setEnabled(false);
                     JTextFieldReference.setEnabled(false);
                 }
+                clearCustomer();
             }
         });
 
@@ -209,7 +228,7 @@ public class CaixaFrame extends JFrame{
                     JLabelIconSearchConsumer.setEnabled(false);
                     JTextFieldReference.setEnabled(false);
                 }
-
+                clearCustomer();
             }
         });
 
@@ -228,6 +247,7 @@ public class CaixaFrame extends JFrame{
                     JLabelIconSearchConsumer.setEnabled(true);
                     JTextFieldReference.setEnabled(false);
                 }
+                clearCustomer();
             }
         });
 
@@ -237,16 +257,15 @@ public class CaixaFrame extends JFrame{
                 super.mouseClicked(e);
                 if(JLabelIconSearchConsumer.isEnabled()) {
                     if(JRadioButtonDelivery.isSelected()){
-                        SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName,JLabelIconSearchConsumer);
-                        selectCustomer.setLocationRelativeTo(null);
-                        selectCustomer.setVisible(true);
-                    }
-                    else{
                         SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName,JTextFieldAddress,JTextFieldReference,JLabelIconSearchConsumer);
                         selectCustomer.setLocationRelativeTo(null);
                         selectCustomer.setVisible(true);
                     }
-
+                    else{
+                        SelectCustomer selectCustomer = new SelectCustomer(JTextFieldName,JLabelIconSearchConsumer);
+                        selectCustomer.setLocationRelativeTo(null);
+                        selectCustomer.setVisible(true);
+                    }
                     JLabelIconSearchConsumer.setEnabled(false);
                 }
 
@@ -267,6 +286,7 @@ public class CaixaFrame extends JFrame{
                     String adress = JTextFieldAddress.getText().trim();
                     String ref = JTextFieldReference.getText().trim();
                     String name = JTextFieldName.getText().trim();
+                    String date = JTextFieldDate.getText().trim();
                     if (JRadioButtonDelivery.isSelected())
                         type = "D";
                     else if (JRadioButtonPresential.isSelected())
@@ -294,13 +314,13 @@ public class CaixaFrame extends JFrame{
                         JOptionPane.showMessageDialog(PanelCaixa,"Sem itens na tabela para realizar a venda","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
                     else {
                         if(pay=="V"){
-                            ConfirmSell confirmSell = new ConfirmSell(productList, total, discount, type, pay,adress,ref);
+                            ConfirmSell confirmSell = new ConfirmSell(productList, total, discount, type, pay,adress,ref,date);
                             confirmSell.setVisible(true);
                             confirmSell.setLocationRelativeTo(PanelCaixa);
                         }
                         else if(pay=="C"){
                             try{
-                                new MnpBD().executeSell(productList,total,discount,type,pay,"",adress,ref,"0",name);
+                                new MnpBD().executeSell(productList,total,discount,type,pay,"",adress,ref,"0",name,date);
                             }catch(Exception ex){
 
                             }
@@ -338,5 +358,16 @@ public class CaixaFrame extends JFrame{
 
     }
 
+    public String dateNow(){
+        Date date = new Date();
+        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
+
+    public void clearCustomer(){
+        JTextFieldAddress.setText("");
+        JTextFieldName.setText("");
+        JTextFieldReference.setText("");
+    }
 
 }

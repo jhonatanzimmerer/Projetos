@@ -23,15 +23,34 @@ public class SelectCustomer extends JFrame{
     private JButton JButtonRefresh;
     private JPanel JPanelHeader;
     private JPanel JPanelFoot;
+    private JButton JButtonExit;
     private JTextField JTextFieldBackName;
     private JTextField JTextFieldBackAddress;
     private JTextField JTextFieldBackReference;
     private JLabel JLabelIconBack;
 
     public SelectCustomer(JTextField JTextFieldInsertName,JLabel JLabelIcon ){
+        this.setContentPane(PanelMain);
+        this.setDefaultCloseOperation(RegisterCustomer.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setUndecorated(true);
         JTextFieldBackName = JTextFieldInsertName;
         JLabelIconBack = JLabelIcon;
         start();
+
+        JButtonConfirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    JTextFieldBackName.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),1).toString());
+
+                    JLabelIconBack.setEnabled(true);
+                    dispose();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(rootPane,"Selecione um item da tabela","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
 
     }
     public SelectCustomer(JTextField JTextFieldInsertName, JTextField JTextFieldAddress, JTextField JTextFieldReference, JLabel JLabelIcon ){
@@ -40,6 +59,22 @@ public class SelectCustomer extends JFrame{
         JTextFieldBackReference = JTextFieldReference;
         JLabelIconBack = JLabelIcon;
         start();
+
+        JButtonConfirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    JTextFieldBackName.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),1).toString());
+                    JTextFieldBackAddress.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),3).toString());
+                    JTextFieldBackReference.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),4).toString());
+
+                    JLabelIconBack.setEnabled(true);
+                    dispose();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(rootPane,"Selecione um item da tabela","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
     }
 
 
@@ -78,20 +113,7 @@ public class SelectCustomer extends JFrame{
     }
 
     public void actions(){
-        JButtonConfirmar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try{
-                    JTextFieldBackName.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),1).toString());
-                    JTextFieldBackAddress.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),3).toString());
-                    JTextFieldBackReference.setText(JTableCustomerList.getValueAt(JTableCustomerList.getSelectedRow(),4).toString());
-                    JLabelIconBack.setEnabled(true);
-                    dispose();
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(rootPane,"Selecione um item da tabela","Campo invalido",JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
+
 
         JButtonCadastrar.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +129,14 @@ public class SelectCustomer extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadTableBd((DefaultTableModel) JTableCustomerList.getModel());
+            }
+        });
+
+        JButtonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabelIconBack.setEnabled(true);
+                dispose();
             }
         });
     }
