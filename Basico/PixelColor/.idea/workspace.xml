@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97e988df-fbfd-4535-b6e9-d3979818f1ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Pro_Market/Pro_Market.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/src/main/java/com/zimmerer/Project_Market/ProjectMarketApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Avançados/Project_Market/src/test/java/com/zimmerer/Project_Market/ProjectMarketApplicationTests.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RunPixelColor.py" beforeDir="false" afterPath="$PROJECT_DIR$/RunPixelColor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/aws.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/untitled.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/Dados/Inicio.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/Dados/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../untitled/Dados/train.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pro_Market/out/artifacts/Pro_Market_jar/Pro_Market.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../Pro_Market/out/artifacts/Pro_Market_jar/Pro_Market.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,29 +75,21 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1626395368260">
+    <state width="1899" height="241" key="GridCell.Tab.0.bottom" timestamp="1650085528392">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050/1920.104.1024.789@0.0.1920.1050" timestamp="1626395368260" />
-    <state width="1899" height="241" key="GridCell.Tab.0.bottom" timestamp="1626395379071">
+    <state width="1899" height="241" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1650085528392" />
+    <state width="1899" height="241" key="GridCell.Tab.0.center" timestamp="1650085528392">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="241" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.104.1024.789@0.0.1920.1050" timestamp="1626395379071" />
-    <state width="1003" height="202" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.104.1024.789@1920.104.1024.789" timestamp="1622476186579" />
-    <state width="1899" height="241" key="GridCell.Tab.0.center" timestamp="1626395379071">
+    <state width="1899" height="241" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1650085528392" />
+    <state width="1899" height="241" key="GridCell.Tab.0.left" timestamp="1650085528391">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="241" key="GridCell.Tab.0.center/0.0.1920.1050/1920.104.1024.789@0.0.1920.1050" timestamp="1626395379071" />
-    <state width="1003" height="202" key="GridCell.Tab.0.center/0.0.1920.1050/1920.104.1024.789@1920.104.1024.789" timestamp="1622476186579" />
-    <state width="1899" height="241" key="GridCell.Tab.0.left" timestamp="1626395379071">
+    <state width="1899" height="241" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1650085528391" />
+    <state width="1899" height="241" key="GridCell.Tab.0.right" timestamp="1650085528392">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="241" key="GridCell.Tab.0.left/0.0.1920.1050/1920.104.1024.789@0.0.1920.1050" timestamp="1626395379071" />
-    <state width="1003" height="202" key="GridCell.Tab.0.left/0.0.1920.1050/1920.104.1024.789@1920.104.1024.789" timestamp="1622476186579" />
-    <state width="1899" height="241" key="GridCell.Tab.0.right" timestamp="1626395379071">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state width="1899" height="241" key="GridCell.Tab.0.right/0.0.1920.1050/1920.104.1024.789@0.0.1920.1050" timestamp="1626395379071" />
-    <state width="1003" height="202" key="GridCell.Tab.0.right/0.0.1920.1050/1920.104.1024.789@1920.104.1024.789" timestamp="1622476186579" />
+    <state width="1899" height="241" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1650085528392" />
   </component>
 </project>

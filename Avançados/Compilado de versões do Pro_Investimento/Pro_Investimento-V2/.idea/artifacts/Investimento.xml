@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Investimento">
+    <output-path>$PROJECT_DIR$/out/artifacts/Investimento</output-path>
+    <root id="archive" name="Investimento.jar">
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/jxl-2.6.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/mysql-connector-java-8.0.26.jar" path-in-jar="/" />
+      <element id="module-output" name="Pro_Investimento" />
+    </root>
+  </artifact>
+</component>
